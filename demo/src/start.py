@@ -26,15 +26,16 @@ def index():
 @app.route('/get_selection')
 def get_selection():
   fs = list()
-  for f in os.listdir(DATA_PATH):
-    if f.endswith('.csv'):
-      fs.append(f)
+  for path, subdirs, files in os.walk(DATA_PATH):
+    for f in files:
+      if f.endswith('.csv'):
+        fs.append(os.path.join(path,f))
   return jsonify(selection=fs)
 
 
 @app.route('/detect')
 def luminoldetect():
-  ts = urllib.unquote(request.args.get('ts_path')[1:])
+  ts = urllib.unquote(request.args.get('ts_path'))
   my_detector = anomaly_detector.AnomalyDetector(ts)
   score = my_detector.get_all_scores().values
 

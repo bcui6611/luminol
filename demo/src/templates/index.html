@@ -99,7 +99,7 @@ $(document).ready(function(){
       s = selection[i];
       opt = document.createElement('option');
       txt = document.createTextNode(s);
-      opt.value = "/static/data/"+s
+      opt.value = s;
       opt.appendChild(txt);
       $('#select-chart-0')[0].add(opt);
     }

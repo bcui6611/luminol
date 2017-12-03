@@ -39,12 +39,13 @@ function plot(selector_id, reset_selector_id, div_id, colorset_id, advanced_sour
   var div_height = document.getElementById(div_id).clientHeight;
   var blockRedraw = false;
   var initialized = false;
+
   chart_1 = new Dygraph(document.getElementById(div_id), chart_data_source,
   {
     axes : {
-      x : {
-            ticker: Dygraph.dateTicker
-          },
+      //x : {
+      //      ticker: Dygraph.dateTicker
+      //    },
       y : {
             drawGrid: true
           }
@@ -56,9 +57,10 @@ function plot(selector_id, reset_selector_id, div_id, colorset_id, advanced_sour
     },
     xlabel: "Time",
     colors: colorSets[colorset_id],
-    labels: [ "Time", chart_data_title],
-    labelsDiv: "labels-" + div_id,
-    dateWindow: syncRange,
+    //labels: [ "Time", chart_data_title],
+    //labelsDiv: "labels-" + div_id,
+    showRangeSelector: true,
+    //dateWindow: syncRange,
     drawCallback: function(me, initial) {
       if (blockRedraw || initial) return;
       blockRedraw = true;
@@ -69,15 +71,14 @@ function plot(selector_id, reset_selector_id, div_id, colorset_id, advanced_sour
         if (timeseriesChartsList[i] != null)
         {
             timeseriesChartsList[i].updateOptions({
-                dateWindow: syncRange
+                //dateWindow: syncRange
             });
         }
       }
-    updateShareUrl();
-    blockRedraw = false;
+      updateShareUrl();
+      blockRedraw = false;
     }
-  }
-  );
+  });
   chart_1.resize(div_width, window.screen.height*0.75/2);
   chartsList[chartIndex] = chart_1;
   timeseriesChartsList[chartIndex] = chart_1;

@@ -45,7 +45,11 @@ def read_csv(csv_name):
     if not isinstance(csv_name, (str, unicode)):
         raise exceptions.InvalidDataFormat('luminol.utils: csv_name has to be a string!')
     with open(csv_name, 'r') as csv_data:
+        has_header = csv.Sniffer().sniff(csv_data.read(1024))
+        csv_data.seek(0)  # Rewind.
         reader = csv.reader(csv_data, delimiter=',', quotechar='|')
+        if has_header:
+            next(reader)  # Skip header row.
         for row in reader:
             try:
                 key = to_epoch(row[0])
